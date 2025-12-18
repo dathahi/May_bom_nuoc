@@ -9,21 +9,34 @@ data class SensorData(
     val isconnect: Boolean = false,
     val humidity: Float = 0f,
     val temperature: Float = 0f,
-    val timestamp: Long = 0L
+    val lastUpdateTimestamp: Long = 0L
 ) {
     fun isValid(): Boolean {
         return temperature in -40f..80f &&
-                humidity in 0f..80f &&
-                timestamp > 0
+                humidity in 0f..100f
 
     }
+    fun isOnline(): Boolean {
+        if (lastUpdateTimestamp == 0L) return false
+        val currentTime = System.currentTimeMillis()
+        val timeDifference = currentTime - lastUpdateTimestamp
+        return timeDifference <= 5 * 60 * 1000
+    }
 }
-
+data class changePass(
+    val currentPass: String = "",
+    val newPass: String = "",
+    val continuePass: String = ""
+)
 
 data class Setting(
     val thresholdTemp: Float = 0f,
     val thresholdHum: Float = 0f
-)
+){
+    fun isValid(): Boolean {
+        return  thresholdTemp in -40f..50f &&  thresholdHum in 0f..100f
+    }
+}
 
 sealed class Dbresult<out T>{
 
@@ -32,4 +45,14 @@ sealed class Dbresult<out T>{
     data class Error(val mess: String): Dbresult<Nothing>()
 
 }
+
+data class HistoryPoint(
+    val value: Float = 0f,
+    val timestamp: Long = 0L
+)
+
+data class HistoryData(
+    val humidityHistory: List<HistoryPoint> = emptyList(),
+    val temperatureHistory: List<HistoryPoint> = emptyList()
+)
 

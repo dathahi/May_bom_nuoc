@@ -2,6 +2,7 @@ package com.example.demo.ui.sensor
 
 import androidx.lifecycle.ViewModel
 import com.example.demo.data.Dbresult
+import com.example.demo.data.HistoryData
 import com.example.demo.data.SensorData
 import com.example.demo.data.firebase
 import com.example.demo.ui.login.LoginUiState
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.update
 
 data class SensorUiState(
     val sensorData: SensorData = SensorData(),
+    val historyData: HistoryData = HistoryData(),
     val errMessage: String = "",
     val isConnect: Boolean = false,
     val PopupAlert: Boolean = false,
@@ -43,6 +45,11 @@ class SensorViewModel(private val database: firebase = firebase()): ViewModel(){
             }
 
         }
+    }
+
+    override fun onCleared() {
+        database.removeSensorListener()
+        super.onCleared()
     }
 
 //    fun CheckThreshold(){
