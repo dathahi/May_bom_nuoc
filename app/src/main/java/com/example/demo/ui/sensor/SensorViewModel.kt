@@ -40,7 +40,6 @@ class SensorViewModel(private val database: firebase = firebase()): ViewModel(){
                         isConnect = dbresult.data.isconnect,
                         sensorData = dbresult.data,
                     ) }
-//                    CheckThreshold(dbresult.data.isconnect)
                 }
             }
 
@@ -51,9 +50,5 @@ class SensorViewModel(private val database: firebase = firebase()): ViewModel(){
         database.removeSensorListener()
         super.onCleared()
     }
-
-//    fun CheckThreshold(){
-//
-//    }
 
 }

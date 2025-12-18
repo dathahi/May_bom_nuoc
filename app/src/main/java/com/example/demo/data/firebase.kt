@@ -192,7 +192,6 @@ class firebase {
                     val humidityList = mutableListOf<HistoryPoint>()
                     val temperatureList = mutableListOf<HistoryPoint>()
 
-                    // Đọc humidity history
                     val humiditySnapshot = snapshot.child("humidity")
                     for (child in humiditySnapshot.children) {
                         val value = child.child("val").getValue(Float::class.java) ?: 0f
@@ -200,15 +199,12 @@ class firebase {
                         humidityList.add(HistoryPoint(value, timestamp))
                     }
 
-                    // Đọc temperature history
                     val temperatureSnapshot = snapshot.child("temperature")
                     for (child in temperatureSnapshot.children) {
                         val value = child.child("val").getValue(Float::class.java) ?: 0f
                         val timestamp = child.child("ts").getValue(Long::class.java) ?: 0L
                         temperatureList.add(HistoryPoint(value, timestamp))
                     }
-
-                    // Sắp xếp theo timestamp và lấy limit điểm mới nhất
                     val sortedHumidity = humidityList
                         .sortedByDescending { it.timestamp }
                         .take(limit)

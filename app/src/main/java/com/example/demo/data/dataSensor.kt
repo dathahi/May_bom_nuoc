@@ -9,18 +9,11 @@ data class SensorData(
     val isconnect: Boolean = false,
     val humidity: Float = 0f,
     val temperature: Float = 0f,
-    val lastUpdateTimestamp: Long = 0L
 ) {
     fun isValid(): Boolean {
         return temperature in -40f..80f &&
                 humidity in 0f..100f
 
-    }
-    fun isOnline(): Boolean {
-        if (lastUpdateTimestamp == 0L) return false
-        val currentTime = System.currentTimeMillis()
-        val timeDifference = currentTime - lastUpdateTimestamp
-        return timeDifference <= 5 * 60 * 1000
     }
 }
 data class changePass(

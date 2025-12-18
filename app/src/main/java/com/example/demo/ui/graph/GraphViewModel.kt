@@ -3,6 +3,7 @@ package com.example.demo.ui.graph
 import androidx.lifecycle.ViewModel
 import com.example.demo.data.Dbresult
 import com.example.demo.data.HistoryData
+import com.example.demo.data.UserManager
 import com.example.demo.data.firebase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +31,7 @@ class GraphViewModel : ViewModel() {
         firebase.read_history(limit) { result ->
             when (result) {
                 is Dbresult.Success -> {
+                    UserManager.currentHistoryData = result.data
                     _uiState.value = GraphUiState(
                         historyData = result.data,
                         isLoading = false,

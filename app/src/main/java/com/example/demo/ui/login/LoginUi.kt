@@ -30,7 +30,7 @@ fun LoginUi(
     onClickButton: () -> Unit,
     viewModel: LoginViewModel = viewModel()
 ) {
-    // LOGIC GIỮ NGUYÊN
+
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val state by viewModel.uiState.collectAsState()
@@ -62,7 +62,7 @@ fun LoginUi(
                 .fillMaxWidth(0.9f)
                 .wrapContentHeight(),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF1E293B)  // Slate-800
+                containerColor = Color(0xFF1E293B)
             ),
             shape = RoundedCornerShape(24.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
@@ -79,7 +79,7 @@ fun LoginUi(
                     imageVector = Icons.Default.AccountCircle,
                     contentDescription = null,
                     modifier = Modifier.size(80.dp),
-                    tint = Color(0xFF60A5FA)  // Blue-400
+                    tint = Color(0xFF60A5FA)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -96,7 +96,7 @@ fun LoginUi(
                 Text(
                     text = "Đăng nhập để tiếp tục",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF94A3B8)  // Slate-400
+                    color = Color(0xFF94A3B8)
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))

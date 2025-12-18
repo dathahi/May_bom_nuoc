@@ -97,9 +97,9 @@ fun MyNavigationBar(navController: NavHostController, currentRoute: NavDestinati
     if(bottomBarDestination){
         NavigationBar(
 
-            containerColor = Color(0xFF1E293B),  // Slate-800
+            containerColor = Color(0xFF1E293B),
             contentColor = Color.White,
-            tonalElevation = 0.dp  // Bỏ shadow
+            tonalElevation = 0.dp
         ) {
             screens.forEach { screen ->
                 val isSelected = currentRoute?.hierarchy?.any{it.route == screen.route}?: false
@@ -107,9 +107,6 @@ fun MyNavigationBar(navController: NavHostController, currentRoute: NavDestinati
                     label = {
                         Text(
                             text = screen.title,
-                            // ============================================
-                            // CẢI THIỆN: Màu text rõ ràng hơn
-                            // ============================================
                             color = if(isSelected) Color(0xFF60A5FA) else Color(0xFF94A3B8),
                             fontWeight = if(isSelected) FontWeight.Bold else FontWeight.Normal
                         )
@@ -121,15 +118,13 @@ fun MyNavigationBar(navController: NavHostController, currentRoute: NavDestinati
                             contentDescription = screen.title
                         )
                     },
-                    // ============================================
-                    // THAY ĐỔI: Colors phù hợp dark theme
-                    // ============================================
+
                     colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = Color(0xFF60A5FA),        // Blue-400
-                        unselectedIconColor = Color(0xFF94A3B8),      // Slate-400
+                        selectedIconColor = Color(0xFF60A5FA),
+                        unselectedIconColor = Color(0xFF94A3B8),
                         selectedTextColor = Color(0xFF60A5FA),
                         unselectedTextColor = Color(0xFF94A3B8),
-                        indicatorColor = Color(0xFF334155)            // Slate-700
+                        indicatorColor = Color(0xFF334155)
                     ),
                     onClick = {
                         navController.navigate(route = screen.route){
@@ -155,7 +150,7 @@ object Screen{
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
-fun Dht22AppBar(isDeviceOnline: Boolean, currentRoute: NavDestination?){
+fun Dht22AppBar(currentRoute: NavDestination?){
     val title = when (currentRoute?.route) {
         Screen.login -> "Đăng nhập"
         Screen.sensor -> "Cảm biến"
@@ -167,75 +162,31 @@ fun Dht22AppBar(isDeviceOnline: Boolean, currentRoute: NavDestination?){
 
     TopAppBar(
         title = {
-            // ============================================
-            // CẢI THIỆN: Title màu trắng, bold
-            // ============================================
+
             Text(
                 text = title,
                 color = Color.White,
                 fontWeight = FontWeight.Bold
             )
         },
-        // ============================================
-        // THAY ĐỔI: TopAppBar màu dark
-        // ============================================
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF1E293B),  // Slate-800
+            containerColor = Color(0xFF1E293B),
             titleContentColor = Color.White,
             actionIconContentColor = Color.White
         ),
-        actions = {
-            DeviceState(isOnline = isDeviceOnline)
-        }
     )
 }
 
-@Composable
-fun DeviceState(isOnline: Boolean){
-    // LOGIC GIỮ NGUYÊN
-    val statuscolor = if(isOnline) Color(0xFF10B981) else Color(0xFFEF4444)
-    val statustext = if(isOnline) "Online" else "Offline"
-    val containerColor = Color.White.copy(alpha = 0.15f)
-
-    Surface(
-        shape = RoundedCornerShape(50),
-        color = containerColor,
-        modifier = Modifier.padding(8.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
-        ) {
-            Box(
-                modifier = Modifier
-                    .size(10.dp)
-                    .background(color = statuscolor, shape = CircleShape)
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Text(
-                text = statustext,
-                style = MaterialTheme.typography.labelMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
-        }
-    }
-}
 
 @Composable
 fun Dht22app(
     navController: NavHostController = rememberNavController(),
-    viewModel: SensorViewModel = viewModel()
 ){
-    // LOGIC GIỮ NGUYÊN
-    val uiState by viewModel.uiState.collectAsState()
     val currentRoute = rememberCurrentRoute(navController)
 
     Scaffold(
         topBar = {
-            Dht22AppBar(uiState.isConnect, currentRoute)
+            Dht22AppBar(currentRoute)
         },
         bottomBar = {
             MyNavigationBar(navController = navController, currentRoute)
