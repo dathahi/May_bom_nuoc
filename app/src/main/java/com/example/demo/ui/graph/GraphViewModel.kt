@@ -54,3 +54,4 @@ class GraphViewModel : ViewModel() {
         firebase.removeHistoryListener()
     }
 }
+
